@@ -9,5 +9,12 @@ class Blog extends Model
 {
     use HasFactory;
     protected $table = 'blog';
-    protected $fillable = ['title', 'des', 'detail', 'category', 'public', 'data_pubblic', 'position', 'thumbs'];
+    protected $fillable = ['title'
+    , 'des'
+    , 'detail'
+    , 'category'
+    , 'public'
+    , 'data_pubblic'
+    , 'position'
+    , 'thumbs'];
 }

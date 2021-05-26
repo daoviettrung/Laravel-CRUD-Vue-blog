@@ -6,6 +6,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Repositories\Blog\BlogRepositoryInterface;
 use App\Http\Resources\BlogResource as BlogResource;
+use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
@@ -39,9 +40,17 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required | min : 2 | max: 100',
+            'des' => 'required | min : 2 | max: 100',
+            'detail' => 'required | min : 2 | max: 100'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 404);
+        }
         $data = $request->all();
         if ($this->blogRepo->create($data)) {
-            return response()->json($data, 201);
+            return BlogResource::collection($data);
         } else {
             return false;
         }
@@ -55,18 +64,25 @@ class BlogController extends Controller
      */
     public function show($param)
     {
-       $blog = $this->blogRepo->find($param);
-       return BlogResource::collection($blog);
+        $blog = $this->blogRepo->find($param);
+        return BlogResource::collection($blog);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required | min : 2 | max: 100',
+            'des' => 'required | min : 2 | max: 100',
+            'detail' => 'required | min : 2 | max: 100'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 404);
+        }
         $data = $request->all();
         if ($this->blogRepo->update($id, $data)) {
-            return response()->json($data, 200);
-        } else {
-            return false;
+            return BlogResource::collection($data);
         }
+            return false;
     }
 
     /**
@@ -84,5 +100,10 @@ class BlogController extends Controller
         }
     }
 
-
+    public function search($title){
+        if ($this->blogRepo->search($title)) {
+            return BlogResource::collection($title);
+        } 
+            return false;
+    }
 }

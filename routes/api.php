@@ -17,6 +17,7 @@ use App\Http\Controllers\BlogController;
 
 Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{param}', [BlogController::class, 'show']);
+Route::get('search/{title}', [BlogController::class, 'search']);
 Route::post('blog', [BlogController::class, 'store']);
 Route::put('blog/{id}', [BlogController::class, 'update']);
 Route::delete('blog/{id}', [BlogController::class, 'destroy']);

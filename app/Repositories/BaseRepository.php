@@ -38,8 +38,8 @@ abstract class BaseRepository implements RepositoryInterface
      */
     public function getAll()
     {
-         $datModel = $this->model->all();
-         return $datModel;
+        $datModel = $this->model->all();
+        return $datModel;
     }
 
     /**
@@ -49,15 +49,7 @@ abstract class BaseRepository implements RepositoryInterface
      */
     public function find($param)
     {
-        if(is_numeric($param)){
-            $result = $this->model::where('id','=', $param)
-            ->get();
-        }
-        else{
-            $result  = $this->model::where('title','=', $param)
-            ->get();
-        }
-
+        $result = $this->model::where('id', '=', $param)->get();
         return $result;
     }
 
@@ -81,8 +73,8 @@ abstract class BaseRepository implements RepositoryInterface
     {
         $result = $this->model::find($id);
         if ($result) {
-             $result->update($attributes);
-              return $result;
+            $result->update($attributes);
+            return $result;
         }
         return false;
     }

@@ -14,4 +14,10 @@ class BlogRepository extends BaseRepository implements BlogRepositoryInterface
     {
         return \App\Models\Blog::class;
     }
+
+    public function search($title){
+        $result  = $this->model::where('title','like', $title ."%")
+        ->get();
+        return $result;
+    }
 }
